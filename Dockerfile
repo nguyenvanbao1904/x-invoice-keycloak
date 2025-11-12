@@ -14,7 +14,7 @@ ENV KC_PROXY_HEADERS="xforwarded"
 ENV KC_HTTP_ENABLED="true"
 ENV KC_DB="postgres"
 
-ENV KC_CACHE_STACK="local"
+ENV KC_CACHE="local"
 
 RUN /opt/keycloak/bin/kc.sh build
 
