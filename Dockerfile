@@ -14,8 +14,11 @@ ENV KC_PROXY_HEADERS="xforwarded"
 ENV KC_HTTP_ENABLED="true"
 ENV KC_DB="postgres"
 
+ENV KC_CACHE_STACK="local"
+
 RUN /opt/keycloak/bin/kc.sh build
 
+# 4. EXPOSE PORT
 EXPOSE 9000
 
 CMD ["start"]
