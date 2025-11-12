@@ -1,5 +1,6 @@
 FROM quay.io/keycloak/keycloak:26.4
 
+# 1. SAO CHÉP FILE
 COPY ./themes/x-invoice-theme /opt/keycloak/themes/x-invoice-theme
 COPY ./config/realm-export.json /opt/keycloak/data/import/realm-export.json
 
@@ -9,11 +10,9 @@ ENV KEYCLOAK_IMPORT="/opt/keycloak/data/import/realm-export.json"
 ENV KC_HOSTNAME="https://x-invoice-keycloak.onrender.com"
 ENV KC_HOSTNAME_STRICT="false"
 ENV KC_HTTP_RELATIVE_PATH="/auth"
-
 ENV KC_PROXY_HEADERS="xforwarded"
 ENV KC_HTTP_ENABLED="true"
 ENV KC_DB="postgres"
-
 ENV KC_CACHE="local"
 
 RUN /opt/keycloak/bin/kc.sh build
@@ -21,4 +20,4 @@ RUN /opt/keycloak/bin/kc.sh build
 # 4. EXPOSE PORT
 EXPOSE 9000
 
-CMD ["start"]
+CMD ["start", "--optimized"]
