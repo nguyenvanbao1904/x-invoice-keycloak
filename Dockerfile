@@ -1,19 +1,22 @@
 # Sử dụng image Keycloak chính thức làm nền.
 FROM quay.io/keycloak/keycloak:26.4
 
-# Sao chép thư mục theme tùy chỉnh
+# 1. SAO CHÉP FILE
 COPY ./themes/x-invoice-theme /opt/keycloak/themes/x-invoice-theme
-
-# Sao chép realm config để import
 COPY ./config/realm-export.json /opt/keycloak/data/import/realm-export.json
 
-# Expose port (không bắt buộc nhưng nên có)
+# 2. FIX CỨNG CẤU HÌNH (TRỪ ADMIN/PASSWORD)
+# --- Cấu hình cốt lõi để chạy (Fix lỗi) ---
+ENV KC_HTTP_HOST="0.0.0.0"
+ENV KC_START_DEV="true"
+ENV KC_HTTP_PORT="9000"
+ENV KEYCLOAK_IMPORT="/opt/keycloak/data/import/realm-export.json"
+
+# --- Cấu hình hostname ---
+ENV KC_HOSTNAME="https://x-invoice-keycloak.onrender.com"
+ENV KC_HOSTNAME_STRICT="false"
+ENV KC_HTTP_RELATIVE_PATH="/auth"
+ENV KC_PROXY_HEADERS="xforwarded"
+
+# 3. EXPOSE PORT
 EXPOSE 9000
-
-# GHI ĐÈ ENTRYPOINT:
-# Bắt buộc dùng /bin/sh -c để ${PORT} có thể được mở rộng
-ENTRYPOINT ["/bin/sh", "-c"]
-
-# CMD bây giờ là một chuỗi lệnh ĐẦY ĐỦ mà shell sẽ thực thi
-# Đây là lệnh để chạy dev mode
-CMD ["/opt/keycloak/bin/kc.sh start-dev --http-port=${PORT} --http-host=0.0.0.0 --import-realm"]
