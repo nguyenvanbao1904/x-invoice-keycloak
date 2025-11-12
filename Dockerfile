@@ -10,7 +10,8 @@ ENV KC_HOSTNAME="https://x-invoice-keycloak.onrender.com"
 ENV KC_HOSTNAME_STRICT="false"
 ENV KC_HTTP_RELATIVE_PATH="/auth"
 
-ENV KC_PROXY="edge"
+ENV KC_PROXY_HEADERS="xforwarded"
+ENV KC_HTTP_ENABLED="true"
 
 EXPOSE 9000
 
